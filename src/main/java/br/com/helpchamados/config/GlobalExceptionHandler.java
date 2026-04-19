@@ -1,0 +1,17 @@
+package br.com.helpchamados.config;
+
+import br.com.helpchamados.exceptions.NegocioException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(NegocioException.class)
+    public ResponseEntity<String> handleNegocio(NegocioException ex){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(ex.getMessage());
+    }
+
+}
