@@ -7,10 +7,13 @@ import br.com.helpchamados.dto.categoria.CategoriaResponse;
 import br.com.helpchamados.mapper.CategoriaMapper;
 import br.com.helpchamados.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +38,11 @@ public class CategoriaService {
                 .stream()
                 .map(categoria -> CategoriaMapper.toResponse(categoria))
                 .toList();
+    }
+
+    public Categoria buscarEntidadePorId(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada"));
     }
 
 

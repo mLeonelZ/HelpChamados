@@ -29,9 +29,7 @@ public class UsuarioService {
 
         departamentoService.validarSeEstaAtivo(departamento);
 
-        // 2. Converter DTO para Entidade
         Usuario usuario = UsuarioMapper.toUsuario(request);
-        // 3. Vincular o departamento à entidade Usuario
         usuario.setDepartamento(departamento);
         usuario = repository.save(usuario);
 
@@ -46,9 +44,8 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public UsuarioResponse buscarPorId(UUID id) {
-        Usuario usuario = repository.findById(id)
+    public Usuario buscarPorId(UUID id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
-        return UsuarioMapper.toResponse(usuario);
     }
 }
